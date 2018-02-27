@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="Madhorse 4 Unit Test Suite">
+            <directory>./Tests/UnitTests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php"> ./ </directory>
+	    <exclude>
+		<directory>./Tests/UnitTests</directory>
+		<directory>./vendor</directory>
+             	<file>index.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

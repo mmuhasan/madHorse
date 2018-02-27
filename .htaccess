@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_FILENAME} index.php
+rewriterule ^(.*)$ %2index.php [L]
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_FILENAME} !public/
+RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*?)\1$
+rewriterule ^(.*)$ %2index.php [L]
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*?)\1$
+rewriterule ^(.*)$ %2index.php [L]
+
+Options -Indexes
+
+
+
