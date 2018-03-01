@@ -1,5 +1,6 @@
 <?php
 namespace madHorse\resources\domain;
+use madHorse\resources\exceptions\MadhorseUninitializePropertyException;
 
 
 /**
@@ -29,21 +30,20 @@ namespace madHorse\resources\domain;
 class entity
 {
     private   $data;
-	private   $changedProperties;
+    private   $changedProperties;
 
-	function __construct($ar=array())
-	{
-		$this->data             = array();
+    function __construct($ar=array())
+    {
+	    $this->data             = array();
 	    $this->changedProperties= array();
         
         $this->load($ar);
-	}
+    }
     
     public function __toString()
     {
         $propertyCount = count($this->data);
         $str = "data:$propertyCount".json_encode($this->data);
-        
         $propertyChangeCount = count($this->changedProperties);
         $str .= "modified:$propertyChangeCount".json_encode($this->changedProperties);
         
@@ -69,17 +69,38 @@ class entity
     {
         $this->changedProperties = array(); 
     }
+    
+    private function addAttrValue($att,$ignore,$value)
+    {
+        $ignored = in_array($att,$ignore);
+        if($ignored==null)
+            $this->$att = $value;
+    }
       
     public function load($ar,$ignore=array())
     {
-        if(count($ar)>0)
+        if(!is_array($ar) || count($ar)==0)
+            return;
+        
+        if(!is_array($ignore))
+              $ignore = array($ignore);
+              
+        foreach($ar as $att=>$value)
+            $this->addAttrValue($att,$ignore,$value);
+    }
+    
+    private function updateSynchronizationStatus($propertyName,$value)
+    {
+        if(in_array($propertyName,$this->changedProperties))
+            return;
+            
+        if( !isset($this->data[$propertyName]) )
         {
-            if(!is_array($ignore))
-                  $ignore = array($ignore);
-                  
-            foreach($ar as $att=>$value)
-                if(!in_array($att,$ignore))
-                    $this->$att = $value;
+            $this->changedProperties[] = $propertyName;
+        }
+        else if( trim($this->data[$propertyName]) != trim($value))
+        {
+            $this->changedProperties[] = $propertyName;
         }
     }
     
@@ -88,12 +109,7 @@ class entity
         if(method_exists($this,'set'.$propertyName))
             $value = call_user_func(array($this,'set'.$propertyName),$value);
         
-        if( !isset($this->data[$propertyName]) || ( trim($this->data[$propertyName]) != trim($value) 
-            && !in_array($propertyName,$this->changedProperties)))
-        {
-                $this->changedProperties[] = $propertyName;
-        }
-        
+        $this->updateSynchronizationStatus($propertyName,$value);
         $this->data[$propertyName]=$value;
     }
     
@@ -129,9 +145,5 @@ class entity
     {
         return $this->$propertyName;
     }
-    
-    /** Abstract methods **/
-//    abstract public function getFingerPrint();
-//    abstract public function setFingerPrint();
 }
 
