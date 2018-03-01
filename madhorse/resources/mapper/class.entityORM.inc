@@ -93,9 +93,9 @@ class entityORM
     }
     protected function findSelector(entity $obj):array
     {
+        $v           = $this->primaryKeyValue($obj);
         $searchItems = array();
         
-        $v           = $this->primaryKeyValue($obj)
         if($v != NULL)
             $searchItems[$this->primaryKey] = $v;
         else    
@@ -106,9 +106,9 @@ class entityORM
     
     protected function primaryKeyValue(entity $obj)
     {
-        if($this->propertyMap! = NULL)
+        if($this->propertyMap != NULL)
             $primaryKey = $this->propertyMap[$this->primaryKey];
-        else $primaryKey = $this->$this->primaryKey;
+        else $primaryKey = $this->primaryKey;
         
         try{
             return $obj->$primaryKey;
