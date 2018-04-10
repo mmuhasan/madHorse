@@ -5,7 +5,6 @@ use madHorse\resources\domain\entity;
 use madHorse\resources\exceptions\MadhorseUninitializePropertyException;
 use madHorse\abstracts\iRepository;
 
-
 /**
 	* Compitable to Mad Horse 3.0
 	*
