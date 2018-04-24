@@ -3,7 +3,7 @@
 namespace madHorse\abstracts;
 
 interface iRepository{
-    public function select(string $table, array $selector);
+    public function select(string $table, array $selector,array $column=NULL);
     public function delete(string $table, array $selector);
     public function update(string $table, array $selector, array $data); 
     public function insert(string $table, array $data);

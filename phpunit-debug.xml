@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" 
-         processIsolation="true"
+         processIsolation="false"
          verbose="true"
-         debug="true">
+         debug="true"
+         backupGlobals = "false"
+         >
     <testsuites>
         <testsuite name="Madhorse 4 Unit Test Suite">
             <directory>./Tests/UnitTests</directory>
