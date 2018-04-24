@@ -2,7 +2,7 @@
 
 namespace madHorse\abstracts;
 
-abstract class arrayWrapper
+abstract class arraywrapper
 {
     protected $arData = NULL;
     protected $delim = ".";

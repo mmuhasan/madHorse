@@ -7,7 +7,7 @@ class arraywrapperTest extends TestCase
     
     public function setup()
     {
-        $this->objArrayWrapper = $this->getMockForAbstractClass('\madHorse\abstracts\arrayWrapper');
+        $this->objArrayWrapper = $this->getMockForAbstractClass('\madHorse\abstracts\arraywrapper');
     }  
     
     public function testNullElement()
